@@ -32,7 +32,7 @@ extern const uint8_t usb_device_descriptor[18];
 extern const uint8_t usb_config_descriptor[34];
 
 /* HID Report Descriptor pour Keyboard */
-extern const uint8_t usb_hid_report_descriptor[63];
+extern const uint8_t usb_hid_report_descriptor[];
 
 /* String Descriptors */
 extern const uint16_t *usb_string_descriptors[];

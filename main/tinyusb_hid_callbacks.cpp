@@ -5,10 +5,11 @@
 
 #include "tinyusb_hid_callbacks.h"
 #include "framework.h"
-// #include "tusb.h"  // TinyUSB not available in standard ESP-IDF v5.3
+#include "tinyusb.h"
 #include <string.h>
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
+#include <esp_task_wdt.h>
 
 static const char *TAG = "HID";
 

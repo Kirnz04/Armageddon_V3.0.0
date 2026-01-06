@@ -10,7 +10,6 @@
 #include <esp_spi_flash.h>
 #include <esp_event.h>
 #include <esp_netif.h>
-#include <esp_ota_ops.h>
 
 // Armageddon modules
 #include "framework.h"
@@ -23,7 +22,7 @@
 #include "web_ui.h"
 
 // TinyUSB
-#include "tusb.h"
+#include "tinyusb.h"
 
 static const char *TAG = "MAIN";
 

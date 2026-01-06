@@ -1,6 +1,0 @@
-[0/1] Re-running CMake...
--- Building ESP-IDF components for target esp32
--- Configuring incomplete, errors occurred!
-See also "/Users/sousou04/Documents/Armageddon v3.0.0/Armageddon_V3.0.0/build/CMakeFiles/CMakeOutput.log".
-FAILED: build.ninja 
-/Users/sousou04/.espressif/tools/cmake/3.24.0/CMake.app/Contents/bin/cmake --regenerate-during-build -S"/Users/sousou04/Documents/Armageddon v3.0.0/Armageddon_V3.0.0" -B"/Users/sousou04/Documents/Armageddon v3.0.0/Armageddon_V3.0.0/build"

@@ -25,7 +25,19 @@ idf_component_register(
         lwip
         freertos
         driver
+        esp_tinyusb
 )
+
+# Integrate tusb config and descriptors into the local `esp_tinyusb` wrapper to avoid reverse-dependency issues
+idf_component_get_property(tusb_lib esp_tinyusb COMPONENT_LIB)
+if (tusb_lib)
+    # Provide our local tusb/tusb_config.h to the esp_tinyusb component
+    target_include_directories(${tusb_lib} PRIVATE "${COMPONENT_DIR}/tusb")
+    # Also make our descriptor header available when needed
+    target_include_directories(${tusb_lib} PUBLIC "${COMPONENT_DIR}")
+    # Compile our descriptors as part of the esp_tinyusb component to avoid reverse deps
+    target_sources(${tusb_lib} PRIVATE "${COMPONENT_DIR}/tinyusb_descriptors.cpp")
+endif()
 
 # Options de compilation
 target_compile_options(${COMPONENT_LIB} PRIVATE 

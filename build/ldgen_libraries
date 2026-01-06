@@ -36,12 +36,12 @@
 /Users/sousou04/Documents/Armageddon v3.0.0/Armageddon_V3.0.0/build/esp-idf/sdmmc/libsdmmc.a
 /Users/sousou04/Documents/Armageddon v3.0.0/Armageddon_V3.0.0/build/esp-idf/esp_driver_sdmmc/libesp_driver_sdmmc.a
 /Users/sousou04/Documents/Armageddon v3.0.0/Armageddon_V3.0.0/build/esp-idf/esp_driver_sdspi/libesp_driver_sdspi.a
-/Users/sousou04/Documents/Armageddon v3.0.0/Armageddon_V3.0.0/build/esp-idf/esp_driver_sdio/libesp_driver_sdio.a
-/Users/sousou04/Documents/Armageddon v3.0.0/Armageddon_V3.0.0/build/esp-idf/esp_driver_dac/libesp_driver_dac.a
 /Users/sousou04/Documents/Armageddon v3.0.0/Armageddon_V3.0.0/build/esp-idf/esp_driver_rmt/libesp_driver_rmt.a
+/Users/sousou04/Documents/Armageddon v3.0.0/Armageddon_V3.0.0/build/esp-idf/esp_driver_tsens/libesp_driver_tsens.a
 /Users/sousou04/Documents/Armageddon v3.0.0/Armageddon_V3.0.0/build/esp-idf/esp_driver_sdm/libesp_driver_sdm.a
 /Users/sousou04/Documents/Armageddon v3.0.0/Armageddon_V3.0.0/build/esp-idf/esp_driver_i2c/libesp_driver_i2c.a
 /Users/sousou04/Documents/Armageddon v3.0.0/Armageddon_V3.0.0/build/esp-idf/esp_driver_ledc/libesp_driver_ledc.a
+/Users/sousou04/Documents/Armageddon v3.0.0/Armageddon_V3.0.0/build/esp-idf/esp_driver_usb_serial_jtag/libesp_driver_usb_serial_jtag.a
 /Users/sousou04/Documents/Armageddon v3.0.0/Armageddon_V3.0.0/build/esp-idf/driver/libdriver.a
 /Users/sousou04/Documents/Armageddon v3.0.0/Armageddon_V3.0.0/build/esp-idf/esp_phy/libesp_phy.a
 /Users/sousou04/Documents/Armageddon v3.0.0/Armageddon_V3.0.0/build/esp-idf/esp_vfs_console/libesp_vfs_console.a
@@ -78,5 +78,7 @@
 /Users/sousou04/Documents/Armageddon v3.0.0/Armageddon_V3.0.0/build/esp-idf/nvs_sec_provider/libnvs_sec_provider.a
 /Users/sousou04/Documents/Armageddon v3.0.0/Armageddon_V3.0.0/build/esp-idf/perfmon/libperfmon.a
 /Users/sousou04/Documents/Armageddon v3.0.0/Armageddon_V3.0.0/build/esp-idf/spiffs/libspiffs.a
+/Users/sousou04/Documents/Armageddon v3.0.0/Armageddon_V3.0.0/build/esp-idf/touch_element/libtouch_element.a
+/Users/sousou04/Documents/Armageddon v3.0.0/Armageddon_V3.0.0/build/esp-idf/usb/libusb.a
 /Users/sousou04/Documents/Armageddon v3.0.0/Armageddon_V3.0.0/build/esp-idf/wifi_provisioning/libwifi_provisioning.a
 /Users/sousou04/Documents/Armageddon v3.0.0/Armageddon_V3.0.0/build/esp-idf/main/libmain.a

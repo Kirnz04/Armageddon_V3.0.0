@@ -1,35 +1,25 @@
-version: "3.0.0"
-description: "Armageddon Framework v3.0.0 - ESP32-S3 Pentest Firmware"
-url: "https://github.com/Kirnz04/armageddon_framework"
+version: 3.0.0
+description: Armageddon Framework v3.0.0 - ESP32-S3 Pentest Firmware
+url: https://github.com/Kirnz04/armageddon_framework
 
 dependencies:
   esp_wifi:
-    version: "*"
-    
+    version: '*'
   esp_http_server:
-    version: "*"
-  
-  tinyusb:
-    git: https://github.com/espressif/esp-tinyusb.git
-    version: "1.4.1"
-    
+    version: '*'
   nvs_flash:
-    version: "*"
-    
+    version: '*'
   esp_netif:
-    version: "*"
-    
+    version: '*'
   esp_event:
-    version: "*"
-    
+    version: '*'
   lwip:
-    version: "*"
-    
+    version: '*'
   freertos:
-    version: "*"
-    
+    version: '*'
   driver:
-    version: "*"
-    
+    version: '*'
   esp_hw_support:
-    version: "*"
+    version: '*'
+  espressif/tinyusb: '*'
+  espressif/esp_tinyusb: '*'
