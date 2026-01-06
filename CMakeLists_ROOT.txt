@@ -1,0 +1,13 @@
+cmake_minimum_required(VERSION 3.16)
+
+# Project definition
+project(armageddon_framework_v3 C CXX ASM)
+
+# Set the IDF version requirement
+set(SUPPORTED_TARGETS esp32s3)
+
+# Include ESP-IDF project.cmake
+include($ENV{IDF_PATH}/tools/cmake/project.cmake)
+
+# Project initialization
+project_init(armageddon_framework_v3)

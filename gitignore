@@ -1,0 +1,45 @@
+# Build artifacts
+build/
+*.o
+*.obj
+*.elf
+*.bin
+*.map
+
+# ESP-IDF specific
+sdkconfig.old
+.esphome/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# Environment
+.env
+.venv
+env/
+venv/
+
+# Temporary files
+*.tmp
+*.log
+*.bak
+
+# Build system
+.cmake_cache/
+CMakeFiles/
+CMakeCache.txt
+
+# Execution artifacts
+*.dep
+*.d
