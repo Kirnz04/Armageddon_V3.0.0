@@ -9,9 +9,9 @@
 #include "badusb_ducky.h"
 #include "badusb_keyboard.h"
 #include "logger.h"
-#include <cjson/cJSON.h>
 #include <string.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 static const char *TAG = "WEB_UI";
 static httpd_handle_t server = NULL;
@@ -30,8 +30,11 @@ static esp_err_t handler_get_scan(httpd_req_t *req) {
     httpd_resp_set_type(req, "application/json");
     
     uint16_t count = wifi_scan_get_count();
-    cJSON *root = cJSON_CreateObject();
-    cJSON *networks = cJSON_CreateArray();
+    char *json_str = (char *)malloc(8192);
+    if (!json_str) return ESP_FAIL;
+    
+    int pos = 0;
+    pos += snprintf(json_str + pos, 8192 - pos, "{\"networks\":[");
     
     for (uint16_t i = 0; i < count; i++) {
         char ssid[33] = {0};
@@ -42,28 +45,21 @@ static esp_err_t handler_get_scan(httpd_req_t *req) {
         
         wifi_scan_get_network(i, ssid, bssid, &rssi, &channel, &secure);
         
-        cJSON *net = cJSON_CreateObject();
-        cJSON_AddStringToObject(net, "ssid", ssid);
-        cJSON_AddNumberToObject(net, "rssi", rssi);
-        cJSON_AddNumberToObject(net, "channel", channel);
-        cJSON_AddBoolToObject(net, "secure", secure);
+        if (i > 0) pos += snprintf(json_str + pos, 8192 - pos, ",");
         
         char bssid_str[18];
         snprintf(bssid_str, sizeof(bssid_str), "%02x:%02x:%02x:%02x:%02x:%02x",
                  bssid[0], bssid[1], bssid[2], bssid[3], bssid[4], bssid[5]);
-        cJSON_AddStringToObject(net, "bssid", bssid_str);
         
-        cJSON_AddItemToArray(networks, net);
+        pos += snprintf(json_str + pos, 8192 - pos, 
+            "{\"ssid\":\"%s\",\"rssi\":%d,\"channel\":%d,\"secure\":%s,\"bssid\":\"%s\"}",
+            ssid, rssi, channel, secure ? "true" : "false", bssid_str);
     }
     
-    cJSON_AddItemToObject(root, "networks", networks);
-    cJSON_AddNumberToObject(root, "count", count);
+    pos += snprintf(json_str + pos, 8192 - pos, "],\"count\":%d}", count);
     
-    const char *json_str = cJSON_Print(root);
     httpd_resp_send(req, json_str, strlen(json_str));
-    
-    free((void *)json_str);
-    cJSON_Delete(root);
+    free(json_str);
     
     return ESP_OK;
 }
@@ -80,18 +76,29 @@ static esp_err_t handler_post_badusb(httpd_req_t *req) {
     
     buffer[total_len] = '\0';
     
-    // Parse JSON
-    cJSON *root = cJSON_Parse(buffer);
-    if (!root) {
-        httpd_resp_send_500(req);
-        return ESP_FAIL;
+    // Simple JSON parsing
+    char script[2048] = {0};
+    int layout = 0;
+    
+    const char *script_ptr = strstr(buffer, "\"script\"");
+    if (script_ptr) {
+        const char *start = strchr(script_ptr, ':');
+        if (start) {
+            start = strchr(start, '"');
+            if (start) {
+                start++;
+                const char *end = strchr(start, '"');
+                if (end && (end - start) < sizeof(script)) {
+                    strncpy(script, start, end - start);
+                }
+            }
+        }
     }
     
-    cJSON *script_item = cJSON_GetObjectItem(root, "script");
-    cJSON *layout_item = cJSON_GetObjectItem(root, "layout");
-    
-    const char *script = script_item ? script_item->valuestring : "";
-    int layout = layout_item ? layout_item->valueint : 0;
+    const char *layout_ptr = strstr(buffer, "\"layout\"");
+    if (layout_ptr) {
+        sscanf(layout_ptr, "\"layout\":%d", &layout);
+    }
     
     // Initialize parser
     ducky_parser_t parser;
@@ -144,16 +151,8 @@ static esp_err_t handler_post_badusb(httpd_req_t *req) {
     }
     
     // Response
-    cJSON *resp = cJSON_CreateObject();
-    cJSON_AddBoolToObject(resp, "success", true);
-    
-    const char *resp_str = cJSON_Print(resp);
     httpd_resp_set_type(req, "application/json");
-    httpd_resp_send(req, resp_str, strlen(resp_str));
-    
-    free((void *)resp_str);
-    cJSON_Delete(resp);
-    cJSON_Delete(root);
+    httpd_resp_send(req, (const char *)"{\"success\":true}", 17);
     
     return ESP_OK;
 }
@@ -170,28 +169,16 @@ static esp_err_t handler_post_deauth(httpd_req_t *req) {
     
     buffer[total_len] = '\0';
     
-    // Parse JSON
-    cJSON *root = cJSON_Parse(buffer);
-    if (!root) {
-        httpd_resp_send_500(req);
-        return ESP_FAIL;
+    // Simple JSON parsing
+    int idx = -1;
+    const char *idx_ptr = strstr(buffer, "\"idx\"");
+    if (idx_ptr) {
+        sscanf(idx_ptr, "\"idx\":%d", &idx);
     }
     
-    cJSON *idx_item = cJSON_GetObjectItem(root, "idx");
-    int idx = idx_item ? idx_item->valueint : -1;
-    
     if (idx < 0 || idx >= wifi_scan_get_count()) {
-        cJSON *resp = cJSON_CreateObject();
-        cJSON_AddBoolToObject(resp, "success", false);
-        cJSON_AddStringToObject(resp, "error", "Invalid target");
-        
-        const char *resp_str = cJSON_Print(resp);
         httpd_resp_set_type(req, "application/json");
-        httpd_resp_send(req, resp_str, strlen(resp_str));
-        
-        free((void *)resp_str);
-        cJSON_Delete(resp);
-        cJSON_Delete(root);
+        httpd_resp_send(req, (const char *)"{\"success\":false,\"error\":\"Invalid target\"}", 44);
         return ESP_OK;
     }
     
@@ -224,18 +211,10 @@ static esp_err_t handler_post_deauth(httpd_req_t *req) {
     wifi_deauth_get_status(&packets_sent, &active);
     
     // Response
-    cJSON *resp = cJSON_CreateObject();
-    cJSON_AddBoolToObject(resp, "success", true);
-    cJSON_AddNumberToObject(resp, "packets", packets_sent);
-    cJSON_AddStringToObject(resp, "target", ssid);
-    
-    const char *resp_str = cJSON_Print(resp);
+    char resp[256];
+    snprintf(resp, sizeof(resp), "{\"success\":true,\"packets\":%lu,\"target\":\"%s\"}", (unsigned long)packets_sent, ssid);
     httpd_resp_set_type(req, "application/json");
-    httpd_resp_send(req, resp_str, strlen(resp_str));
-    
-    free((void *)resp_str);
-    cJSON_Delete(resp);
-    cJSON_Delete(root);
+    httpd_resp_send(req, resp, strlen(resp));
     
     return ESP_OK;
 }
@@ -244,15 +223,14 @@ static esp_err_t handler_post_deauth(httpd_req_t *req) {
 static esp_err_t handler_get_logs(httpd_req_t *req) {
     httpd_resp_set_type(req, "application/json");
     
-    cJSON *root = cJSON_CreateObject();
-    cJSON_AddStringToObject(root, "logs", logger_get_buffer());
+    const char *logs = logger_get_buffer();
+    char *response = (char *)malloc(4096);
+    if (!response) return ESP_FAIL;
     
-    const char *json_str = cJSON_Print(root);
-    httpd_resp_send(req, json_str, strlen(json_str));
+    snprintf(response, 4096, "{\"logs\":\"%s\"}", logs);
+    httpd_resp_send(req, response, strlen(response));
     
-    free((void *)json_str);
-    cJSON_Delete(root);
-    
+    free(response);
     return ESP_OK;
 }
 

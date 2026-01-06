@@ -5,7 +5,7 @@
 
 #include "tinyusb_hid_callbacks.h"
 #include "framework.h"
-#include "tusb.h"
+// #include "tusb.h"  // TinyUSB not available in standard ESP-IDF v5.3
 #include <string.h>
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>

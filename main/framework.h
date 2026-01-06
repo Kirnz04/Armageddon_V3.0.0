@@ -9,6 +9,8 @@
 #include <stdbool.h>
 #include <stddef.h>
 #include <time.h>
+#include <esp_err.h>
+#include <esp_log.h>
 
 #ifdef __cplusplus
 extern "C" {

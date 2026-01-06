@@ -22,24 +22,14 @@ idf_component_register(
         nvs_flash
         esp_netif
         esp_event
-        tcpip_adapter
-        tinyusb
         lwip
         freertos
         driver
-    
-    LDFRAGMENTS linker.lf
 )
 
-# Add compilation flags
+# Options de compilation
 target_compile_options(${COMPONENT_LIB} PRIVATE 
     -Wall 
     -Wextra 
-    -Werror=format 
     -O2
-)
-
-# Suppress warnings for specific issues (optional)
-target_compile_options(${COMPONENT_LIB} PRIVATE
-    -Wno-format
 )

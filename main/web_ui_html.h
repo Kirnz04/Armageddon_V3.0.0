@@ -6,7 +6,7 @@
 #ifndef WEB_UI_HTML_H
 #define WEB_UI_HTML_H
 
-const char INDEX_HTML[] = R"(
+const char INDEX_HTML[] = R"HTML(
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -263,14 +263,14 @@ const char INDEX_HTML[] = R"(
 <body>
     <div id="container">
         <header>
-            <h1>☠ ARMAGEDDON v3 ☠</h1>
+            <h1>[SKULL] ARMAGEDDON v3 [SKULL]</h1>
             <small>ESP32-S3 Pentest Framework</small>
         </header>
         
         <div class="tabs">
-            <button class="tab-button active" onclick="switchTab('badusb')">BadUSB 🎹</button>
-            <button class="tab-button" onclick="switchTab('wifi')">WiFi 📡</button>
-            <button class="tab-button" onclick="switchTab('logs')">Logs 📋</button>
+            <button class="tab-button active" onclick="switchTab('badusb')">BadUSB [KEYS]</button>
+            <button class="tab-button" onclick="switchTab('wifi')">WiFi [WIFI]</button>
+            <button class="tab-button" onclick="switchTab('logs')">Logs [LOGS]</button>
         </div>
         
         <div id="content">
@@ -288,7 +288,7 @@ const char INDEX_HTML[] = R"(
                 <textarea id="duckyscript" placeholder="STRING Hello World&#10;DELAY 500&#10;ENTER"></textarea>
                 
                 <div class="control-group">
-                    <button onclick="executeDucky()" style="flex: 1;">▶ EXECUTE PAYLOAD</button>
+                    <button onclick="executeDucky()" style="flex: 1;">[>] EXECUTE PAYLOAD</button>
                 </div>
                 <div id="badusb-status" class="status" style="display:none;"></div>
             </div>
@@ -297,7 +297,7 @@ const char INDEX_HTML[] = R"(
             <div id="wifi" class="tab-content">
                 <h2>WiFi Attack Suite</h2>
                 
-                <button onclick="scanNetworks()">🔍 SCAN NETWORKS</button>
+                <button onclick="scanNetworks()">[SEARCH] SCAN NETWORKS</button>
                 <div id="scan-status" class="status" style="display:none;"></div>
                 
                 <label>Available Networks:</label>
@@ -309,7 +309,7 @@ const char INDEX_HTML[] = R"(
                 
                 <div class="control-group">
                     <button id="deauth-btn" class="danger" onclick="startDeauth()" disabled style="flex: 1;">
-                        ⚡ LAUNCH DEAUTH ATTACK
+                        [!] LAUNCH DEAUTH ATTACK
                     </button>
                 </div>
                 
@@ -347,7 +347,7 @@ const char INDEX_HTML[] = R"(
         }
         
         async function scanNetworks() {
-            showStatus('scan-status', '🔍 Scanning...', 'info');
+            showStatus('scan-status', '[SEARCH] Scanning...', 'info');
             try {
                 const res = await fetch('/scan');
                 const data = await res.json();
@@ -363,9 +363,9 @@ const char INDEX_HTML[] = R"(
                     list.appendChild(item);
                 });
                 
-                showStatus('scan-status', `✓ Found ${data.networks.length} networks`, 'success');
+                showStatus('scan-status', `[OK] Found ${data.networks.length} networks`, 'success');
             } catch (e) {
-                showStatus('scan-status', '✗ Scan failed: ' + e, 'error');
+                showStatus('scan-status', '[FAIL] Scan failed: ' + e, 'error');
             }
         }
         
@@ -382,7 +382,7 @@ const char INDEX_HTML[] = R"(
         async function startDeauth() {
             if (selectedNetworkIdx < 0) return;
             
-            showStatus('deauth-status', '⚡ Attack in progress...', 'info');
+            showStatus('deauth-status', '[!] Attack in progress...', 'info');
             document.getElementById('attack-progress').style.display = 'block';
             
             try {
@@ -394,12 +394,12 @@ const char INDEX_HTML[] = R"(
                 const data = await res.json();
                 
                 if (data.success) {
-                    showStatus('deauth-status', `✓ Attack complete! ${data.packets} packets sent`, 'success');
+                    showStatus('deauth-status', `[OK] Attack complete! ${data.packets} packets sent`, 'success');
                 } else {
-                    showStatus('deauth-status', '✗ Attack failed: ' + data.error, 'error');
+                    showStatus('deauth-status', '[FAIL] Attack failed: ' + data.error, 'error');
                 }
             } catch (e) {
-                showStatus('deauth-status', '✗ Error: ' + e, 'error');
+                showStatus('deauth-status', '[FAIL] Error: ' + e, 'error');
             }
             document.getElementById('attack-progress').style.display = 'none';
         }
@@ -419,12 +419,12 @@ const char INDEX_HTML[] = R"(
                 const data = await res.json();
                 
                 if (data.success) {
-                    showStatus('badusb-status', `✓ Payload executed!`, 'success');
+                    showStatus('badusb-status', `[OK] Payload executed!`, 'success');
                 } else {
-                    showStatus('badusb-status', '✗ Failed: ' + data.error, 'error');
+                    showStatus('badusb-status', '[FAIL] Failed: ' + data.error, 'error');
                 }
             } catch (e) {
-                showStatus('badusb-status', '✗ Error: ' + e, 'error');
+                showStatus('badusb-status', '[FAIL] Error: ' + e, 'error');
             }
         }
         
@@ -448,6 +448,6 @@ const char INDEX_HTML[] = R"(
     </script>
 </body>
 </html>
-)";
+)HTML";
 
 #endif /* WEB_UI_HTML_H */

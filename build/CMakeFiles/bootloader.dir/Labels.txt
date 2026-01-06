@@ -1,0 +1,13 @@
+# Target labels
+ bootloader
+# Source files and their labels
+/Users/sousou04/Documents/Armageddon v3.0.0/Armageddon_V3.0.0/build/CMakeFiles/bootloader
+/Users/sousou04/Documents/Armageddon v3.0.0/Armageddon_V3.0.0/build/CMakeFiles/bootloader.rule
+/Users/sousou04/Documents/Armageddon v3.0.0/Armageddon_V3.0.0/build/CMakeFiles/bootloader-complete.rule
+/Users/sousou04/Documents/Armageddon v3.0.0/Armageddon_V3.0.0/build/bootloader-prefix/src/bootloader-stamp/bootloader-build.rule
+/Users/sousou04/Documents/Armageddon v3.0.0/Armageddon_V3.0.0/build/bootloader-prefix/src/bootloader-stamp/bootloader-configure.rule
+/Users/sousou04/Documents/Armageddon v3.0.0/Armageddon_V3.0.0/build/bootloader-prefix/src/bootloader-stamp/bootloader-download.rule
+/Users/sousou04/Documents/Armageddon v3.0.0/Armageddon_V3.0.0/build/bootloader-prefix/src/bootloader-stamp/bootloader-install.rule
+/Users/sousou04/Documents/Armageddon v3.0.0/Armageddon_V3.0.0/build/bootloader-prefix/src/bootloader-stamp/bootloader-mkdir.rule
+/Users/sousou04/Documents/Armageddon v3.0.0/Armageddon_V3.0.0/build/bootloader-prefix/src/bootloader-stamp/bootloader-patch.rule
+/Users/sousou04/Documents/Armageddon v3.0.0/Armageddon_V3.0.0/build/bootloader-prefix/src/bootloader-stamp/bootloader-update.rule

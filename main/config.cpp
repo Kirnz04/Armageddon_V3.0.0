@@ -4,6 +4,7 @@
 
 #include "config.h"
 #include "framework.h"
+#include "wifi_attacks.h"
 #include <nvs_flash.h>
 #include <nvs.h>
 #include <string.h>

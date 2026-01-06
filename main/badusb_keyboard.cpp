@@ -9,7 +9,7 @@
 #include <freertos/task.h>
 #include <string.h>
 
-static keyboard_layout_t current_layout = KB_LAYOUT_US;
+static keyboard_layout_t current_layout = LAYOUT_US_QWERTY;
 
 // ============ US QWERTY LAYOUT ============
 static const char_mapping_t us_layout[] = {
@@ -67,15 +67,15 @@ static const char_mapping_t fr_layout[] = {
     {'X', 0x1B, MOD_LSHIFT}, {'C', 0x06, MOD_LSHIFT}, {'V', 0x19, MOD_LSHIFT},
     {'B', 0x05, MOD_LSHIFT}, {'N', 0x11, MOD_LSHIFT},
     // Chiffres
-    {'&', 0x1E, 0}, {'é', 0x1F, 0}, {'"', 0x20, 0}, {'\'', 0x21, 0},
-    {'(', 0x22, 0}, {'-', 0x23, 0}, {'è', 0x24, 0}, {'_', 0x25, 0},
-    {'ç', 0x26, 0}, {'à', 0x27, 0},
-    // Accents spéciaux via ALTGR
-    {'é', 0x1F, MOD_RALT}, {'è', 0x24, MOD_RALT}, {'ê', 0x08, MOD_RALT},
-    {'ë', 0x08, MOD_RALT}, {'à', 0x27, MOD_RALT}, {'ù', 0x18, MOD_RALT},
-    {'û', 0x18, MOD_RALT}, {'ô', 0x12, MOD_RALT}, {'ö', 0x12, MOD_RALT},
-    {'â', 0x14, MOD_RALT}, {'ä', 0x14, MOD_RALT}, {'ç', 0x06, MOD_RALT},
-    {'€', 0x08, MOD_RALT},
+    {'&', 0x1E, 0}, {'1', 0x1F, 0}, {'"', 0x20, 0}, {'\'', 0x21, 0},
+    {'(', 0x22, 0}, {'-', 0x23, 0}, {'7', 0x24, 0}, {'_', 0x25, 0},
+    {'9', 0x26, 0}, {'0', 0x27, 0},
+    // Accents spéciaux via ALTGR (placeholder keycodes)
+    {'e', 0x1F, MOD_RALT}, {'e', 0x24, MOD_RALT}, {'e', 0x08, MOD_RALT},
+    {'e', 0x08, MOD_RALT}, {'a', 0x27, MOD_RALT}, {'u', 0x18, MOD_RALT},
+    {'u', 0x18, MOD_RALT}, {'o', 0x12, MOD_RALT}, {'o', 0x12, MOD_RALT},
+    {'a', 0x14, MOD_RALT}, {'a', 0x14, MOD_RALT}, {'c', 0x06, MOD_RALT},
+    {'e', 0x08, MOD_RALT},
     // Symboles
     {'1', 0x1E, 0}, {'2', 0x1F, 0}, {'3', 0x20, 0}, {'4', 0x21, 0},
     {'5', 0x22, 0}, {'6', 0x23, 0}, {'7', 0x24, 0}, {'8', 0x25, 0},
@@ -106,9 +106,9 @@ static const char_mapping_t de_layout[] = {
 // ============ HELPER FUNCTION ============
 static const char_mapping_t *get_layout_table(keyboard_layout_t layout) {
     switch (layout) {
-        case KB_LAYOUT_US: return us_layout;
-        case KB_LAYOUT_FR: return fr_layout;
-        case KB_LAYOUT_DE: return de_layout;
+        case LAYOUT_US_QWERTY: return us_layout;
+        case LAYOUT_FR_AZERTY: return fr_layout;
+        case LAYOUT_DE_QWERTZ: return de_layout;
         default: return us_layout;
     }
 }
@@ -130,7 +130,7 @@ static uint8_t find_keycode(char c, keyboard_layout_t layout,
 // ============ IMPLEMENTATION ============
 
 void badusb_keyboard_init(void) {
-    current_layout = KB_LAYOUT_US;
+    current_layout = LAYOUT_US_QWERTY;
     tinyusb_hid_init();
 }
 

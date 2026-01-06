@@ -7,18 +7,12 @@
 #define BADUSB_KEYBOARD_H
 
 #include "tinyusb_hid_callbacks.h"
+#include "framework.h"
 #include <stdint.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
-
-// ============ KEYBOARD LAYOUT ============
-typedef enum {
-    KB_LAYOUT_US = 0,
-    KB_LAYOUT_FR = 1,
-    KB_LAYOUT_DE = 2
-} keyboard_layout_t;
 
 // ============ CHARACTER MAPPING ============
 typedef struct {

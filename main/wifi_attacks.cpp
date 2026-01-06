@@ -8,6 +8,8 @@
 #include "framework.h"
 #include <esp_wifi.h>
 #include <esp_netif.h>
+#include <esp_mac.h>
+#include <esp_task_wdt.h>
 #include <string.h>
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
@@ -74,7 +76,8 @@ static void build_deauth_frame(uint8_t *frame, const uint8_t *dest,
 // ============ DEAUTH TASK ============
 static void deauth_task(void *pvParameters) {
     deauth_params_t *params = (deauth_params_t *)pvParameters;
-    uint32_t start_time_ms = esp_timer_get_time() / 1000;
+    TickType_t start_time_ticks = xTaskGetTickCount();
+    TickType_t duration_ticks = pdMS_TO_TICKS(params->duration_ms);
     uint8_t deauth_frame[26] = {0};  // Deauth frame: 26 bytes
     
     ESP_LOGI(TAG, "Deauth task started for " MACSTR " on channel %d",
@@ -89,7 +92,7 @@ static void deauth_task(void *pvParameters) {
     
     // Spam deauth frames
     while (deauth_active && 
-           (esp_timer_get_time() / 1000 - start_time_ms) < params->duration_ms) {
+           (xTaskGetTickCount() - start_time_ticks) < duration_ticks) {
         
         // Send DEAUTH_FRAMES_PER_BURST frames per burst
         for (int i = 0; i < DEAUTH_FRAMES_PER_BURST; i++) {
@@ -208,7 +211,7 @@ esp_err_t wifi_scan_networks(void) {
     esp_wifi_clear_ap_list();
     
     scan_results.scanning = false;
-    scan_results.last_scan_ms = esp_timer_get_time() / 1000;
+    scan_results.last_scan_ms = pdTICKS_TO_MS(xTaskGetTickCount());
     
     ESP_LOGI(TAG, "Scan complete. Found %d networks", ap_count);
     return ESP_OK;

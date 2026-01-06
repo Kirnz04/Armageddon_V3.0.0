@@ -1,4 +1,4 @@
-version: "1.0"
+version: "3.0.0"
 description: "Armageddon Framework v3.0.0 - ESP32-S3 Pentest Firmware"
 url: "https://github.com/Kirnz04/armageddon_framework"
 
@@ -8,9 +8,10 @@ dependencies:
     
   esp_http_server:
     version: "*"
-    
+  
   tinyusb:
-    version: "*"
+    git: https://github.com/espressif/esp-tinyusb.git
+    version: "1.4.1"
     
   nvs_flash:
     version: "*"

@@ -68,7 +68,7 @@ const uint8_t usb_config_descriptor[34] = {
 
 // ============ HID REPORT DESCRIPTOR ============
 // Standard Keyboard Report Descriptor
-const uint8_t usb_hid_report_descriptor[63] = {
+const uint8_t usb_hid_report_descriptor[] = {
     0x05, 0x01,                    // Usage Page (Generic Desktop)
     0x09, 0x06,                    // Usage (Keyboard)
     0xA1, 0x01,                    // Collection (Application)

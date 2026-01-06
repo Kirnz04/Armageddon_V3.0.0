@@ -5,6 +5,7 @@
 #ifndef LOGGER_H
 #define LOGGER_H
 
+#include "framework.h"
 #include <stdint.h>
 #include <stdarg.h>
 
@@ -12,18 +13,10 @@
 extern "C" {
 #endif
 
-// ============ LOG LEVELS ============
-typedef enum {
-    LOG_LEVEL_DEBUG = 0,
-    LOG_LEVEL_INFO = 1,
-    LOG_LEVEL_WARN = 2,
-    LOG_LEVEL_ERROR = 3
-} log_level_t;
-
-#define LOG_DEBUG(...) logger_log(LOG_LEVEL_DEBUG, __VA_ARGS__)
-#define LOG_INFO(...) logger_log(LOG_LEVEL_INFO, __VA_ARGS__)
-#define LOG_WARN(...) logger_log(LOG_LEVEL_WARN, __VA_ARGS__)
-#define LOG_ERROR(...) logger_log(LOG_LEVEL_ERROR, __VA_ARGS__)
+#define LOG_DEBUG(tag, fmt, ...) logger_log(LOG_DEBUG, tag, fmt, __VA_ARGS__)
+#define LOG_INFO(tag, fmt, ...) logger_log(LOG_INFO, tag, fmt, __VA_ARGS__)
+#define LOG_WARN(tag, fmt, ...) logger_log(LOG_WARN, tag, fmt, __VA_ARGS__)
+#define LOG_ERROR(tag, fmt, ...) logger_log(LOG_ERROR, tag, fmt, __VA_ARGS__)
 
 // ============ FUNCTION DECLARATIONS ============
 

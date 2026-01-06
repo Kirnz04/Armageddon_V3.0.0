@@ -8,8 +8,11 @@
 #include <esp_wifi.h>
 #include <esp_netif.h>
 #include <esp_event.h>
+#include <esp_mac.h>
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
+#include <cstring>
+#include <cstdint>
 
 static const char *TAG = "WIFI_INIT";
 
@@ -118,17 +121,15 @@ esp_err_t wifi_start_ap(void) {
     
     ESP_LOGI(TAG, "Starting AP: %s", AP_SSID);
     
-    wifi_config_t ap_config = {
-        .ap = {
-            .ssid = AP_SSID,
-            .ssid_len = strlen(AP_SSID),
-            .password = AP_PASSWORD,
-            .channel = AP_CHANNEL,
-            .authmode = WIFI_AUTH_WPA2_PSK,
-            .max_connection = AP_MAX_CONN,
-            .beacon_interval = AP_BEACON_INTERVAL,
-        }
-    };
+    wifi_config_t ap_config = {};
+    memset(&ap_config, 0, sizeof(wifi_config_t));
+    strncpy((char*)ap_config.ap.ssid, AP_SSID, sizeof(ap_config.ap.ssid) - 1);
+    ap_config.ap.ssid_len = strlen(AP_SSID);
+    strncpy((char*)ap_config.ap.password, AP_PASSWORD, sizeof(ap_config.ap.password) - 1);
+    ap_config.ap.channel = AP_CHANNEL;
+    ap_config.ap.authmode = WIFI_AUTH_WPA2_PSK;
+    ap_config.ap.max_connection = AP_MAX_CONN;
+    ap_config.ap.beacon_interval = AP_BEACON_INTERVAL;
     
     // Save config for potential restart
     memcpy(&saved_ap_config, &ap_config, sizeof(wifi_config_t));
@@ -212,12 +213,10 @@ esp_err_t wifi_start_sta(uint8_t channel) {
     
     ESP_LOGI(TAG, "Starting STA on channel %d", channel);
     
-    wifi_config_t sta_config = {
-        .sta = {
-            .channel = channel,
-            .scan_method = WIFI_ALL_CHANNEL_SCAN,
-        }
-    };
+    wifi_config_t sta_config = {};
+    memset(&sta_config, 0, sizeof(wifi_config_t));
+    sta_config.sta.channel = channel;
+    sta_config.sta.scan_method = WIFI_ALL_CHANNEL_SCAN;
     
     esp_err_t ret = esp_wifi_set_config(WIFI_IF_STA, &sta_config);
     if (ret != ESP_OK) {
@@ -243,12 +242,12 @@ esp_err_t wifi_stop_sta(void) {
 }
 
 // ============ QUERY FUNCTIONS ============
-esp_wifi_mode_t wifi_get_mode(void) {
+wifi_mode_t wifi_get_mode(void) {
     if (!wifi_initialized) {
         return WIFI_MODE_NULL;
     }
     
-    esp_wifi_mode_t mode;
+    wifi_mode_t mode;
     esp_wifi_get_mode(&mode);
     return mode;
 }

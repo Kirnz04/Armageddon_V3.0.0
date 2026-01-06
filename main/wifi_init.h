@@ -6,6 +6,8 @@
 #define WIFI_INIT_H
 
 #include <esp_err.h>
+#include <esp_wifi.h>
+#include <esp_log.h>
 #include <stdint.h>
 #include <stdbool.h>
 
@@ -34,7 +36,7 @@ esp_err_t wifi_start_sta(uint8_t channel);
 esp_err_t wifi_stop_sta(void);
 
 /* Get current WiFi mode */
-esp_wifi_mode_t wifi_get_mode(void);
+wifi_mode_t wifi_get_mode(void);
 
 /* Check if AP is running */
 bool wifi_is_ap_running(void);
